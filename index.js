@@ -191,8 +191,8 @@ const Swipeout = createReactClass({
     //  prevent scroll if moveX is true
     var moveX = Math.abs(posX) > Math.abs(posY);
     if (this.props.scroll) {
-      if (moveX) this.props.scroll(false);
-      else this.props.scroll(true);
+      if (moveX) this.props.scroll(this, false);
+      else this.props.scroll(this, true);
     }
     if (this.state.swiping) {
       //  move content to reveal swipeout
@@ -241,7 +241,7 @@ const Swipeout = createReactClass({
     }
 
     //  Allow scroll
-    if (this.props.scroll) this.props.scroll(true);
+    if (this.props.scroll) this.props.scroll(this, true);
   },
 
   _tweenContent: function(state, endValue) {
@@ -268,7 +268,7 @@ const Swipeout = createReactClass({
   _open: function(contentPos, direction) {
     const left = direction === 'left';
     const { sectionID, rowID, onOpen } = this.props;
-    onOpen && onOpen(sectionID, rowID, direction);
+    onOpen && onOpen(this, sectionID, rowID, direction);
     this._tweenContent('contentPos', contentPos);
     this.setState({
       contentPos,
@@ -282,7 +282,7 @@ const Swipeout = createReactClass({
     const { sectionID, rowID, onClose } = this.props;
     if (onClose && (this.state.openedLeft || this.state.openedRight)) {
       const direction = this.state.openedRight ? 'right' : 'left';
-      onClose(sectionID, rowID, direction);
+      onClose(this, sectionID, rowID, direction);
     }
     this._tweenContent('contentPos', 0);
     this._callOnClose();
@@ -294,11 +294,11 @@ const Swipeout = createReactClass({
   },
 
   _callOnClose: function() {
-    if (this.props.onClose) this.props.onClose(this.props.sectionID, this.props.rowID);
+    if (this.props.onClose) this.props.onClose(this, this.props.sectionID, this.props.rowID);
   },
 
   _callOnOpen: function() {
-    if (this.props.onOpen) this.props.onOpen(this.props.sectionID, this.props.rowID);
+    if (this.props.onOpen) this.props.onOpen(this, this.props.sectionID, this.props.rowID);
   },
 
   _openRight: function() {
