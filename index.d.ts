@@ -18,8 +18,11 @@ declare module 'react-native-swipeout' {
         close?: boolean;
         disabled?: boolean;
         left?: SwipeoutButtonProperties[];
-        onOpen?(sectionId: number, rowId: number, direction: string): void;
-        onClose?(sectionId: number, rowId: number, direction: string): void;
+        onOpen?(ref: Object, sectionId: number, rowId: number, direction: string): void;
+        onClose?(ref: Object, sectionId: number, rowId: number, direction: string): void;
+        onPanStart?(ref: Object): void;
+        onPanMove?(ref: Object): void;
+        onPanEnd?(ref: Object): void;
         right?: SwipeoutButtonProperties[];
         scroll?(): void;
         style?: Object;

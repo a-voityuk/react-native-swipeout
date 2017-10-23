@@ -104,6 +104,9 @@ const Swipeout = createReactClass({
     left: PropTypes.array,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
+    onPanStart: PropTypes.func,
+    onPanMove: PropTypes.func,
+    onPanEnd: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: (ViewPropTypes || View.propTypes).style,
@@ -162,6 +165,9 @@ const Swipeout = createReactClass({
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     if (this.props.disabled) return;
+
+    this.props.onPanStart && this.props.onPanStart(this);
+
     if (!this.state.openedLeft && !this.state.openedRight) {
       this._callOnOpen();
     } else {
@@ -181,6 +187,9 @@ const Swipeout = createReactClass({
 
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
     if (this.props.disabled) return;
+
+    this.props.onPanMove && this.props.onPanMove(this);
+
     var posX = gestureState.dx;
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
@@ -206,6 +215,9 @@ const Swipeout = createReactClass({
 
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     if (this.props.disabled) return;
+
+    this.props.onPanEnd && this.props.onPanEnd(this);
+
     var posX = gestureState.dx;
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
